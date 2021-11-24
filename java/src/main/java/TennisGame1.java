@@ -17,53 +17,44 @@ public class TennisGame1 implements TennisGame {
     }
 
     public String getScore() {
-        String score = "";
-        int tempScore = 0;
-        if (playerOneScore == playerTwoScore) {
-            switch (playerOneScore) {
-                case 0:
-                    score = "Love-All";
-                    break;
-                case 1:
-                    score = "Fifteen-All";
-                    break;
-                case 2:
-                    score = "Thirty-All";
-                    break;
-                default:
-                    score = "Deuce";
-                    break;
-
-            }
-        } else if (playerOneScore >= 4 || playerTwoScore >= 4) {
-            int minusResult = playerOneScore - playerTwoScore;
-            if (minusResult == 1) score = "Advantage player1";
-            else if (minusResult == -1) score = "Advantage player2";
-            else if (minusResult >= 2) score = "Win for player1";
-            else score = "Win for player2";
-        } else {
-            for (int i = 1; i < 3; i++) {
-                if (i == 1) tempScore = playerOneScore;
-                else {
-                    score += "-";
-                    tempScore = playerTwoScore;
-                }
-                switch (tempScore) {
-                    case 0:
-                        score += "Love";
-                        break;
-                    case 1:
-                        score += "Fifteen";
-                        break;
-                    case 2:
-                        score += "Thirty";
-                        break;
-                    case 3:
-                        score += "Forty";
-                        break;
-                }
-            }
+        if (isDeuce()) return "Deuce";
+        if (advantagePlay()) {
+            int scoreDifference = playerOneScore - playerTwoScore;
+            if (scoreDifference == 1) return "Advantage player1";
+            else if (scoreDifference == -1) return "Advantage player2";
+            else if (scoreDifference >= 2) return "Win for player1";
+            else return "Win for player2";
         }
-        return score;
+
+        if (isPair()) return translateScoreToString(playerOneScore) + "-All";
+
+        return translateScoreToString(playerOneScore) + "-" + translateScoreToString(playerTwoScore);
+    }
+
+    private String translateScoreToString(int score) {
+        switch (score) {
+            case 0:
+                return "Love";
+            case 1:
+                return "Fifteen";
+            case 2:
+                return "Thirty";
+            case 3:
+                return "Forty";
+            default:
+                return "";
+        }
+    }
+
+    private boolean isDeuce() {
+        return playerOneScore >= 3 && playerOneScore == playerTwoScore;
+    }
+
+    private boolean isPair() {
+        return playerOneScore == playerTwoScore;
+    }
+
+    private boolean advantagePlay() {
+        return playerOneScore >= 4 || playerTwoScore >= 4;
     }
 }

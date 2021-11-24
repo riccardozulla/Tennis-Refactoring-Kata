@@ -26,7 +26,7 @@ public class TennisGame1 implements TennisGame {
             else return "Win for player2";
         }
 
-        if (isPair()) return translateScoreToString(playerOneScore) + "-All";
+        if (isEven()) return translateScoreToString(playerOneScore) + "-All";
 
         return translateScoreToString(playerOneScore) + "-" + translateScoreToString(playerTwoScore);
     }
@@ -50,7 +50,7 @@ public class TennisGame1 implements TennisGame {
         return playerOneScore >= 3 && playerOneScore == playerTwoScore;
     }
 
-    private boolean isPair() {
+    private boolean isEven() {
         return playerOneScore == playerTwoScore;
     }
 
